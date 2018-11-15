@@ -1,6 +1,11 @@
 const Vibrant = require('node-vibrant');
 const fs = require('fs');
 
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Credentials': true
+};
+
 const paletteToJSON = (palette) => {
   const json = {};
 
@@ -20,7 +25,6 @@ const paletteToJSON = (palette) => {
 };
 
 module.exports.parseBase64 = (event, context, callback) => {
-  console.log(event.Body);
   const body = JSON.parse(event.body);
   const { base64 } = body;
   console.info('Retrieved body', body);
@@ -30,13 +34,9 @@ module.exports.parseBase64 = (event, context, callback) => {
     .quality(1)
     .getPalette()
     .then(palette => {
-      console.info(palette);
       callback(null, {
         statusCode: 200,
-        headers: {
-          'Access-Control-Allow-Origin': '*', // Required for CORS support to work
-          'Access-Control-Allow-Credentials': true // Required for cookies, authorization headers with HTTPS
-        },
+        headers: CORS_HEADERS,
         body: JSON.stringify({
           colors: paletteToJSON(palette)
         })
@@ -44,12 +44,10 @@ module.exports.parseBase64 = (event, context, callback) => {
     })
     .catch(err => {
       console.error(err);
+
       callback(null, {
         statusCode: 500,
-        headers: {
-          'Access-Control-Allow-Origin': '*', // Required for CORS support to work
-          'Access-Control-Allow-Credentials': true // Required for cookies, authorization headers with HTTPS
-        },
+        headers: CORS_HEADERS,
         body: JSON.stringify({
           message: err
         })

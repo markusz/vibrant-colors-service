@@ -18,13 +18,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <script>
       const app = angular.module('myApp', []);
-      app.config(function ($locationProvider) {
-        $locationProvider.html5Mode({
-          enabled: true,
-          requireBase: false
-        });
-      });
-
       const extractRawBase64fromSourceString = (base64String) => base64String.split('base64,')[1];
       app.filter('extractBase64', () => extractRawBase64fromSourceString);
       app.directive('fileread', [function () {
@@ -53,8 +46,7 @@
         $scope.analyze = () => {
           $http.post(`${$scope.apiBaseURL}/vibrantcolor`, {
             base64: extractRawBase64fromSourceString($scope.base64)
-          })
-            .then((data, status) => {
+          }).then((data, status) => {
               $scope.result = data.data.colors;
               console.log(data);
             }, (data, status) => {
