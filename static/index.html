@@ -42,11 +42,19 @@
       app.controller('MainController', ['$scope', '$http', '$location', ($scope, $http, $location) => {
         $scope.result = [];
         $scope.base64 = '';
+        $scope.backgroundColor = '#ffffff';
         $scope.apiBaseURL = 'https://2c4ndw1rrd.execute-api.eu-central-1.amazonaws.com/prod';
+        $scope.setBackgroundColor = (color) => {
+          $scope.backgroundColor = color
+        };
+        $scope.resetBackgroundColor = () => {
+          $scope.backgroundColor = '#ffffff';
+        };
         $scope.analyze = () => {
           $http.post(`${$scope.apiBaseURL}/vibrantcolor`, {
             base64: extractRawBase64fromSourceString($scope.base64)
-          }).then((data, status) => {
+          })
+            .then((data, status) => {
               $scope.result = data.data.colors;
               console.log(data);
             }, (data, status) => {
@@ -54,12 +62,13 @@
               $scope.error = data;
             });
         };
-      }]);
+      }])
+      ;
     </script>
 </head>
 <body>
 <div ng-app="myApp" ng-controller="MainController">
-    <div class="container" style="padding-top: 50px;">
+    <div class="container-fluid" style="padding-top: 50px;">
         <div class="row">
             <div class="col-6">
                 <div ng-if="base64 == ''">
@@ -69,7 +78,9 @@
                     <br>
                     Caveats: Works only for JPG and has no average color
                 </div>
-                <img ng-if="base64 != ''" width="80%" ng-src="{{base64}}"/>
+                <div ng-style="{'background': backgroundColor}">
+                    <img ng-if="base64 != ''" width="100%" ng-style="{'padding': '30px'}" ng-src="{{base64}}"/>
+                </div>
                 <input ng-style="{'margin-top': '20px'}" type="file" fileread="base64" required>
                 <button ng-style="{'margin-top': '20px'}" ng-if="base64 != ''" type="button" class="btn btn-success"
                         ng-click="analyze()">Analyze
@@ -78,7 +89,7 @@
             <div class="col-6">
                 <table class="table table table-bordered table-hover" style="font-size: small;">
                     <tbody>
-                    <tr ng-repeat="(key, value) in result">
+                    <tr ng-mouseout="resetBackgroundColor()" ng-mouseover="setBackgroundColor(value.hex)" ng-repeat="(key, value) in result">
                         <td>
                             <b>{{key}}</b>
                         </td>
@@ -87,7 +98,7 @@
                             <div>HEX: {{value.hex}}</div>
                             <div>HSL: {{value.hsl}}</div>
                         </td>
-                        <td ng-style="{'background': value.hex}">
+                        <td  ng-style="{'background': value.hex}">
                             <div style="width:100px; height:50px"></div>
                         </td>
                     </tr>
