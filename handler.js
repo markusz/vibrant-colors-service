@@ -11,7 +11,7 @@ const paletteToJSON = (palette) => {
         json[key] = {
           rgb: vibrant.getRgb(),
           hex: vibrant.getHex(),
-          hsl: vibrant.getHsl()
+          hsl: vibrant.getHsl().map(value => value.toFixed(5))
         };
       }
     });
