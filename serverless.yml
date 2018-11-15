@@ -6,7 +6,7 @@ provider:
   stage: prod
   region: eu-central-1
   memory: 512
-  timeout: 20
+  timeout: 30
 
 package:
   include:
