@@ -1,0 +1,33 @@
+service: vibrant-colors
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: prod
+  region: eu-central-1
+  memory: 512
+  timeout: 20
+
+package:
+  include:
+    - node_modules
+  exclude:
+    - .eslintrc
+    - package.json
+    - node_modules/eslint*
+
+functions:
+  getVibrantColorFromBase64:
+    handler: handler.parseBase64
+    events:
+      - http:
+          path: vibrantcolor
+          method: post
+          cors: true
+  serveUI:
+    handler: handler.serveUI
+    events:
+      - http:
+          path: vibrantcolor
+          method: get
+          cors: true
