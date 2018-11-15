@@ -70,9 +70,16 @@
     <div class="container" style="padding-top: 50px;">
         <div class="row">
             <div class="col-6">
+                <div ng-if="base64 == ''">
+                    Select a .jpg file and hit analyze. It might take a few seconds, so please be patient.
+                    <br>
+                    You can also use the API directly, use browser inspector to see how the call looks like
+                    <br>
+                    Caveats: Works only for JPG and has no average color
+                </div>
                 <img ng-if="base64 != ''" width="80%" ng-src="{{base64}}"/>
-                <input type="file" fileread="base64" required>
-                <button ng-if="base64 != ''" type="button" class="btn btn-success"
+                <input ng-style="{'margin-top': '20px'}" type="file" fileread="base64" required>
+                <button ng-style="{'margin-top': '20px'}" ng-if="base64 != ''" type="button" class="btn btn-success"
                         ng-click="analyze()">Analyze
                 </button>
             </div>
