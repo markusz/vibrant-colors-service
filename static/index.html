@@ -16,6 +16,7 @@
             integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
             crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
     <script>
       const app = angular.module('myApp', []);
       const extractRawBase64fromSourceString = (base64String) => base64String.split('base64,')[1];
@@ -85,6 +86,8 @@
                 <button ng-style="{'margin-top': '20px'}" ng-if="base64 != ''" type="button" class="btn btn-success"
                         ng-click="analyze()">Analyze
                 </button>
+                <a class="github-button" href="https://github.com/markusz/vibrant-colors-service/subscription"
+                   aria-label="Watch markusz/vibrant-colors-service on GitHub">Github</a>
             </div>
             <div class="col-6">
                 <table class="table table table-bordered table-hover" style="font-size: small;">
